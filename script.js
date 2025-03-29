@@ -229,10 +229,6 @@ function shareToWhatsApp() {
 
 
 
-
-
-
-
 document.getElementById('shareWhatsApp').addEventListener('click', function () {
     const selectedMenu = document.getElementById('menuDropdown').value;
     const menuHeading = selectedMenu.charAt(0).toUpperCase() + selectedMenu.slice(1);
