@@ -137,3 +137,31 @@ input, select {
 #itemsList button:hover, #calculatedItems button:hover {
     color: #c82333;
 }
+#menuSection {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    border-radius: 5px;
+}
+
+#menuList {
+    list-style: none;
+    padding: 0;
+}
+
+#menuList li {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.menuItemText {
+    flex-grow: 1;
+}
+
+.menuItemDelete {
+    color: red;
+    cursor: pointer;
+}
