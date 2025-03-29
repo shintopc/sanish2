@@ -21,6 +21,25 @@
         <!-- Home Page -->
         <div id="homePage">
             <button onclick="navigateToPurchaseList()">Make Purchase List</button>
+            <button id="shareMenuBtn">Share Menu</button>
+<div id="menuSection" style="display: none;">
+    <label for="menuDropdown">Select Menu:</label>
+    <select id="menuDropdown">
+        <option value="lunch">Lunch</option>
+        <option value="dinner">Dinner</option>
+        <option value="breakfast">Breakfast</option>
+    </select>
+    <button id="loadMenu">Load Menu</button>
+
+    <ul id="menuList"></ul>
+
+    <input type="text" id="menuItemInput" placeholder="Add item">
+    <button id="addMenuItem">Add</button>
+
+    <button id="shareWhatsApp">Share on WhatsApp</button>
+    <button id="exportMenuPDF">Export as PDF</button>
+</div>
+
           <div style="text-align: left;">
     Eden Events & Catering Service<br>
     Kannur, Kerala<br>
