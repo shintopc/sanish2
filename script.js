@@ -230,11 +230,15 @@ function shareToWhatsApp() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-
-    // Show menu section when "Share Menu" is clicked
-    document.getElementById('shareMenuBtn').addEventListener('click', function () {
-        document.getElementById('menuSection').style.display = 'block';
-    });
+    // Ensure elements exist before adding event listeners
+    const shareMenuBtn = document.getElementById('shareMenuBtn');
+    const menuSection = document.getElementById('menuSection');
+    
+    if (shareMenuBtn && menuSection) {
+        shareMenuBtn.addEventListener('click', function () {
+            menuSection.style.display = 'block';
+        });
+    }
 
     const menuData = {
         lunch: ["Rice", "Sambar", "Fish Fry"],
@@ -242,70 +246,96 @@ document.addEventListener("DOMContentLoaded", function () {
         breakfast: ["Appam", "Egg Curry"]
     };
 
-    // Load the selected menu when clicking "Load Menu"
-    document.getElementById('loadMenu').addEventListener('click', function () {
-        const selectedMenu = document.getElementById('menuDropdown').value;
-        document.getElementById('menuHeading').innerText = selectedMenu.charAt(0).toUpperCase() + selectedMenu.slice(1) + " Menu"; // Update heading
-        loadMenuItems(menuData[selectedMenu]);
-    });
+    const loadMenuBtn = document.getElementById('loadMenu');
+    if (loadMenuBtn) {
+        loadMenuBtn.addEventListener('click', function () {
+            const menuDropdown = document.getElementById('menuDropdown');
+            if (menuDropdown) {
+                const selectedMenu = menuDropdown.value;
+                const menuHeading = document.getElementById('menuHeading');
+                if (menuHeading) {
+                    menuHeading.innerText = selectedMenu.charAt(0).toUpperCase() + selectedMenu.slice(1) + " Menu";
+                }
+                loadMenuItems(menuData[selectedMenu]);
+            }
+        });
+    }
 
     function loadMenuItems(items) {
         const menuList = document.getElementById('menuList');
-        menuList.innerHTML = "";
-
-        items.forEach(item => addMenuItemToList(item));
+        if (menuList) {
+            menuList.innerHTML = "";
+            items.forEach(item => addMenuItemToList(item));
+        }
     }
 
-    document.getElementById('addMenuItem').addEventListener('click', function () {
-        const newItem = document.getElementById('menuItemInput').value.trim();
-        if (newItem) {
-            addMenuItemToList(newItem);
-            document.getElementById('menuItemInput').value = "";
-        }
-    });
+    const addMenuItemBtn = document.getElementById('addMenuItem');
+    if (addMenuItemBtn) {
+        addMenuItemBtn.addEventListener('click', function () {
+            const newItemInput = document.getElementById('menuItemInput');
+            if (newItemInput) {
+                const newItem = newItemInput.value.trim();
+                if (newItem) {
+                    addMenuItemToList(newItem);
+                    newItemInput.value = "";
+                }
+            }
+        });
+    }
 
     function addMenuItemToList(item) {
         const menuList = document.getElementById('menuList');
-        const li = document.createElement('li');
-        li.innerHTML = `<span class="menuItemText">${item}</span> 
-                        <span class="menuItemDelete">❌</span>`;
-        menuList.appendChild(li);
+        if (menuList) {
+            const li = document.createElement('li');
+            li.innerHTML = `<span class="menuItemText">${item}</span> 
+                            <span class="menuItemDelete">❌</span>`;
+            menuList.appendChild(li);
 
-        li.querySelector(".menuItemDelete").addEventListener('click', function () {
-            li.remove();
+            li.querySelector(".menuItemDelete").addEventListener('click', function () {
+                li.remove();
+            });
+        }
+    }
+
+    const shareWhatsAppBtn = document.getElementById('shareWhatsApp');
+    if (shareWhatsAppBtn) {
+        shareWhatsAppBtn.addEventListener('click', function () {
+            const menuDropdown = document.getElementById('menuDropdown');
+            if (menuDropdown) {
+                const selectedMenu = menuDropdown.value;
+                const menuHeading = selectedMenu.charAt(0).toUpperCase() + selectedMenu.slice(1);
+
+                const items = Array.from(document.querySelectorAll('.menuItemText'))
+                    .map(el => `• ${el.innerText}`)
+                    .join('%0A');
+
+                const whatsappURL = `https://wa.me/?text=${encodeURIComponent(menuHeading + ' Menu')}${'%0A' + items}`;
+                window.open(whatsappURL, '_blank');
+            }
         });
     }
 
-    // Share on WhatsApp with line breaks and menu heading
-    document.getElementById('shareWhatsApp').addEventListener('click', function () {
-        const selectedMenu = document.getElementById('menuDropdown').value;
-        const menuHeading = selectedMenu.charAt(0).toUpperCase() + selectedMenu.slice(1);
+    const exportPDFBtn = document.getElementById('exportMenuPDF');
+    if (exportPDFBtn && window.jspdf) {
+        exportPDFBtn.addEventListener('click', function () {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
 
-        const items = Array.from(document.querySelectorAll('.menuItemText'))
-            .map(el => `• ${el.innerText}`) // Add bullet points
-            .join('%0A'); // New line encoding for WhatsApp
+            const menuDropdown = document.getElementById('menuDropdown');
+            if (menuDropdown) {
+                const selectedMenu = menuDropdown.value;
+                const menuHeading = selectedMenu.charAt(0).toUpperCase() + selectedMenu.slice(1);
 
-        const whatsappURL = `https://wa.me/?text=${encodeURIComponent(menuHeading + ' Menu')}${'%0A' + items}`;
-        window.open(whatsappURL, '_blank');
-    });
+                doc.text(menuHeading + " Menu", 10, 10);
 
-    // Export menu as PDF with menu heading
-    document.getElementById('exportMenuPDF').addEventListener('click', function () {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+                let y = 20;
+                document.querySelectorAll('.menuItemText').forEach(item => {
+                    doc.text(`• ${item.innerText}`, 10, y);
+                    y += 10;
+                });
 
-        const selectedMenu = document.getElementById('menuDropdown').value;
-        const menuHeading = selectedMenu.charAt(0).toUpperCase() + selectedMenu.slice(1);
-
-        doc.text(menuHeading + " Menu", 10, 10); // Add heading
-
-        let y = 20;
-        document.querySelectorAll('.menuItemText').forEach(item => {
-            doc.text(`• ${item.innerText}`, 10, y);
-            y += 10;
+                doc.save(menuHeading.toLowerCase() + '-menu.pdf');
+            }
         });
-
-        doc.save(menuHeading.toLowerCase() + '-menu.pdf');
-    });
-
+    }
 });
