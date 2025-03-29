@@ -229,32 +229,83 @@ function shareToWhatsApp() {
 
 
 
-document.getElementById('shareWhatsApp').addEventListener('click', function () {
-    const selectedMenu = document.getElementById('menuDropdown').value;
-    const menuHeading = selectedMenu.charAt(0).toUpperCase() + selectedMenu.slice(1);
+document.addEventListener("DOMContentLoaded", function () {
 
-    const items = Array.from(document.querySelectorAll('.menuItemText'))
-        .map(el => `• ${el.innerText}`) // Add bullet points
-        .join('%0A'); // New line encoding for WhatsApp
-
-    const whatsappURL = `https://wa.me/?text=${encodeURIComponent(menuHeading + ' Menu')}${'%0A' + items}`;
-    window.open(whatsappURL, '_blank');
-});
-
-document.getElementById('exportMenuPDF').addEventListener('click', function () {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    const selectedMenu = document.getElementById('menuDropdown').value;
-    const menuHeading = selectedMenu.charAt(0).toUpperCase() + selectedMenu.slice(1);
-
-    doc.text(menuHeading + " Menu", 10, 10); // Add heading
-
-    let y = 20;
-    document.querySelectorAll('.menuItemText').forEach(item => {
-        doc.text(`• ${item.innerText}`, 10, y);
-        y += 10;
+    // Show menu section when "Share Menu" is clicked
+    document.getElementById('shareMenuBtn').addEventListener('click', function () {
+        document.getElementById('menuSection').style.display = 'block';
     });
 
-    doc.save(menuHeading.toLowerCase() + '-menu.pdf');
+    const menuData = {
+        lunch: ["Rice", "Sambar", "Fish Fry"],
+        dinner: ["Porotta", "Chicken Curry"],
+        breakfast: ["Appam", "Egg Curry"]
+    };
+
+    // Load the selected menu when clicking "Load Menu"
+    document.getElementById('loadMenu').addEventListener('click', function () {
+        const selectedMenu = document.getElementById('menuDropdown').value;
+        document.getElementById('menuHeading').innerText = selectedMenu.charAt(0).toUpperCase() + selectedMenu.slice(1) + " Menu"; // Update heading
+        loadMenuItems(menuData[selectedMenu]);
+    });
+
+    function loadMenuItems(items) {
+        const menuList = document.getElementById('menuList');
+        menuList.innerHTML = "";
+
+        items.forEach(item => addMenuItemToList(item));
+    }
+
+    document.getElementById('addMenuItem').addEventListener('click', function () {
+        const newItem = document.getElementById('menuItemInput').value.trim();
+        if (newItem) {
+            addMenuItemToList(newItem);
+            document.getElementById('menuItemInput').value = "";
+        }
+    });
+
+    function addMenuItemToList(item) {
+        const menuList = document.getElementById('menuList');
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="menuItemText">${item}</span> 
+                        <span class="menuItemDelete">❌</span>`;
+        menuList.appendChild(li);
+
+        li.querySelector(".menuItemDelete").addEventListener('click', function () {
+            li.remove();
+        });
+    }
+
+    // Share on WhatsApp with line breaks and menu heading
+    document.getElementById('shareWhatsApp').addEventListener('click', function () {
+        const selectedMenu = document.getElementById('menuDropdown').value;
+        const menuHeading = selectedMenu.charAt(0).toUpperCase() + selectedMenu.slice(1);
+
+        const items = Array.from(document.querySelectorAll('.menuItemText'))
+            .map(el => `• ${el.innerText}`) // Add bullet points
+            .join('%0A'); // New line encoding for WhatsApp
+
+        const whatsappURL = `https://wa.me/?text=${encodeURIComponent(menuHeading + ' Menu')}${'%0A' + items}`;
+        window.open(whatsappURL, '_blank');
+    });
+
+    // Export menu as PDF with menu heading
+    document.getElementById('exportMenuPDF').addEventListener('click', function () {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        const selectedMenu = document.getElementById('menuDropdown').value;
+        const menuHeading = selectedMenu.charAt(0).toUpperCase() + selectedMenu.slice(1);
+
+        doc.text(menuHeading + " Menu", 10, 10); // Add heading
+
+        let y = 20;
+        document.querySelectorAll('.menuItemText').forEach(item => {
+            doc.text(`• ${item.innerText}`, 10, y);
+            y += 10;
+        });
+
+        doc.save(menuHeading.toLowerCase() + '-menu.pdf');
+    });
+
 });
