@@ -225,3 +225,68 @@ function shareToWhatsApp() {
     // Open WhatsApp with the shared text
     window.open(`https://wa.me/?text=${encodedText}`, '_blank');
 }
+document.getElementById('shareMenuBtn').addEventListener('click', function () {
+    document.getElementById('menuSection').style.display = 'block';
+});
+
+const menuData = {
+    lunch: ["Rice", "Sambar", "Fish Fry"],
+    dinner: ["Porotta", "Chicken Curry"],
+    breakfast: ["Appam", "Egg Curry"]
+};
+
+document.getElementById('loadMenu').addEventListener('click', function () {
+    const selectedMenu = document.getElementById('menuDropdown').value;
+    loadMenuItems(menuData[selectedMenu]);
+});
+
+function loadMenuItems(items) {
+    const menuList = document.getElementById('menuList');
+    menuList.innerHTML = "";
+
+    items.forEach(item => addMenuItemToList(item));
+}
+
+document.getElementById('addMenuItem').addEventListener('click', function () {
+    const newItem = document.getElementById('menuItemInput').value.trim();
+    if (newItem) {
+        addMenuItemToList(newItem);
+        document.getElementById('menuItemInput').value = "";
+    }
+});
+
+function addMenuItemToList(item) {
+    const menuList = document.getElementById('menuList');
+    const li = document.createElement('li');
+    li.innerHTML = `<span class="menuItemText">${item}</span> 
+                    <span class="menuItemDelete">❌</span>`;
+    menuList.appendChild(li);
+
+    li.querySelector(".menuItemDelete").addEventListener('click', function () {
+        li.remove();
+    });
+}
+
+// Share on WhatsApp
+document.getElementById('shareWhatsApp').addEventListener('click', function () {
+    const items = Array.from(document.querySelectorAll('.menuItemText'))
+        .map(el => el.innerText).join(', ');
+
+    const whatsappURL = `https://wa.me/?text=Our%20Menu:%20${encodeURIComponent(items)}`;
+    window.open(whatsappURL, '_blank');
+});
+
+// Export as PDF
+document.getElementById('exportMenuPDF').addEventListener('click', function () {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.text("Menu List", 10, 10);
+
+    let y = 20;
+    document.querySelectorAll('.menuItemText').forEach(item => {
+        doc.text(item.innerText, 10, y);
+        y += 10;
+    });
+
+    doc.save('menu.pdf');
+});
