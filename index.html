@@ -21,29 +21,9 @@
         <!-- Home Page -->
         <div id="homePage">
             <button onclick="navigateToPurchaseList()">Make Purchase List</button>
-
-
-            <!-- share menu Page -->
-            <button id="shareMenuBtn">Share Menu</button>
-            <div id="menuSection" style="display: none;">
-                <label for="menuDropdown">Select Menu:</label>
-                <select id="menuDropdown">
-                    <option value="lunch">Lunch</option>
-                    <option value="dinner">Dinner</option>
-                    <option value="breakfast">Breakfast</option>
-                </select>
-                <button id="loadMenu">Load Menu</button>
-
-                <ul id="menuList"></ul>
-
-                <input type="text" id="menuItemInput" placeholder="Add item">
-                <button id="addMenuItem">Add</button>
-
-                <button id="shareWhatsApp">Share on WhatsApp</button>
-                <button id="exportMenuPDF">Export as PDF</button>
-            </div>
-
-            <div style="text-align: left;">
+            <button onclick="navigateToShareMenu()">Share Menu</button>
+            
+            <div style="text-align: left; margin-top: 20px;">
                 Eden Events & Catering Service<br>
                 Kannur, Kerala<br>
                 Phone: +91 9562941209
@@ -75,6 +55,28 @@
             <button id="addItemButton" class="hidden" onclick="addItemAfterCalculation()">Add Item</button>
             <button id="exportPdf" class="export-button" onclick="exportToPdf()" disabled>Export as PDF</button>
             <button id="sharePurchaseWhatsApp" class="export-button" onclick="sharePurchaseToWhatsApp()" disabled>Share to WhatsApp</button>
+            
+            <button onclick="navigateToHome()">Back to Home</button>
+        </div>
+
+        <!-- Share Menu Page -->
+        <div id="shareMenuPage" class="hidden">
+            <h2>Share Menu</h2>
+            <label for="menuDropdown">Select Menu:</label>
+            <select id="menuDropdown">
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+                <option value="breakfast">Breakfast</option>
+            </select>
+            <button id="loadMenu">Load Menu</button>
+
+            <ul id="menuList"></ul>
+
+            <input type="text" id="menuItemInput" placeholder="Add new menu item">
+            <button id="addMenuItem">Add Item</button>
+
+            <button id="shareWhatsApp" class="export-button">Share on WhatsApp</button>
+            <button id="exportMenuPDF" class="export-button">Export as PDF</button>
             
             <button onclick="navigateToHome()">Back to Home</button>
         </div>
