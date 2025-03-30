@@ -16,9 +16,9 @@ header {
     color: white;
     padding: 10px 0;
     text-align: center;
-    width: 340px; /* Match the container width */
+    width: 340px;
     border-radius: 8px 8px 0 0;
-  margin-top: 30px; /* Reduced margin at the top */
+    margin-top: 30px;
 }
 
 header h1 {
@@ -42,7 +42,7 @@ footer {
     color: white;
     padding: 10px 0;
     text-align: center;
-    width: 340px; /* Match the container width */
+    width: 340px;
     border-radius: 0 0 8px 8px;
     margin-top: 20px;
 }
@@ -107,6 +107,16 @@ input, select {
     cursor: not-allowed;
 }
 
+/* WhatsApp Share Button */
+#sharePurchaseWhatsApp {
+    background-color: #25D366;
+    margin-top: 20px;
+}
+
+#sharePurchaseWhatsApp:hover {
+    background-color: #128C7E;
+}
+
 /* List Styles */
 #itemsList, #calculatedItems {
     margin-top: 20px;
@@ -137,6 +147,7 @@ input, select {
 #itemsList button:hover, #calculatedItems button:hover {
     color: #c82333;
 }
+
 #menuSection {
     margin-top: 10px;
     padding: 10px;
@@ -164,14 +175,4 @@ input, select {
 .menuItemDelete {
     color: red;
     cursor: pointer;
-}
-
-
-
-#sharePurchaseWhatsApp {
-    background-color: #25D366; /* WhatsApp green color */
-}
-
-#sharePurchaseWhatsApp:hover {
-    background-color: #128C7E; /* Darker WhatsApp green */
 }
