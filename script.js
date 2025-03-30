@@ -231,7 +231,7 @@ function sharePurchaseToWhatsApp() {
     shareText += "*Ingredients:*\n";
     
     for (const [ingredient, details] of Object.entries(calculatedIngredients)) {
-        shareText += `➡ ${ingredient}: ${details.quantity} ${details.unit}\n`;
+        shareText += `💠 ${ingredient}: ${details.quantity} ${details.unit}\n`;
     }
 
     // Encode the text for the WhatsApp URL
