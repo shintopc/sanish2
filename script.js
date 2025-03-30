@@ -201,7 +201,7 @@ function exportToPdf() {
     doc.save("purchase_list.pdf");
 }
 
-function shareToWhatsApp() {
+function sharePurchaseToWhatsApp() {
     // Format the purchase list into a readable text
     let shareText = "Catering Purchase List:\n\n";
     for (const [ingredient, details] of Object.entries(calculatedIngredients)) {
