@@ -269,7 +269,7 @@ function shareMenuToWhatsApp() {
     const menuHeading = selectedMenu.charAt(0).toUpperCase() + selectedMenu.slice(1);
 
     const items = Array.from(document.querySelectorAll('.menuItemText'))
-        .map(el => `• ${el.innerText}`)
+        .map(el => `⭕️ ${el.innerText}`)
         .join('\n');
 
     const shareText = `*${menuHeading} Menu*\n\n${items}`;
